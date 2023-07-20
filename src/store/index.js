@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -14,7 +14,7 @@ export default new Vuex.Store({
           { id: 1, quantity: 3, color: "#ff0000", isSelected: false },
           { id: 2, quantity: 2, color: "#00ff00", isSelected: false },
           { id: 3, quantity: 1, color: "#0000ff", isSelected: false },
-          // Добавьте другие элементы по умолчанию для List 1
+          // Add other default items for List 1
         ],
       },
       {
@@ -24,11 +24,13 @@ export default new Vuex.Store({
         items: [
           { id: 4, quantity: 5, color: "#ffff00", isSelected: false },
           { id: 5, quantity: 2, color: "#ff00ff", isSelected: false },
-          // Добавьте другие элементы по умолчанию для List 2
+          // Add other default items for List 2
         ],
       },
-      // Добавьте другие списки по умолчанию
+      // Add other default lists
     ],
+    isShuffled: false,
+    shuffledItems: [],
   },
   mutations: {
     toggleList(state, listId) {
@@ -73,6 +75,15 @@ export default new Vuex.Store({
         }
       }
     },
+    shuffleSquares(state) {
+      const allSelectedItems = state.lists.flatMap((listItems) => listItems.items.filter((item) => item.isSelected));
+      state.shuffledItems = allSelectedItems.slice().sort(() => Math.random() - 0.5);
+      state.isShuffled = true;
+    },
+    resetSquares(state) {
+      state.shuffledItems = [];
+      state.isShuffled = false;
+    },
   },
   actions: {
     toggleList({ commit }, listId) {
@@ -90,5 +101,11 @@ export default new Vuex.Store({
     deleteItem({ commit }, { listId, itemId }) {
       commit("deleteItem", { listId, itemId });
     },
+    shuffleSquares({ commit }) {
+      commit("shuffleSquares");
+    },
+    resetSquares({ commit }) {
+      commit("resetSquares");
+    },
   },
-})
+});

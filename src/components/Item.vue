@@ -3,7 +3,6 @@
     <input type="checkbox" :checked="isSelected" @change="selectItem" />
     <input type="number" v-model="quantity" min="0" @change="updateQuantity" />
     <input type="color" v-model="color" @change="updateColor" />
-    <div class="color-square" :style="{ backgroundColor: color }"></div>
   </div>
 </template>
 
@@ -47,7 +46,7 @@ export default {
       this.$emit("itemSelected", this.item.id, event.target.checked);
     },
     updateQuantity() {
-      this.$emit("quantityChanged", this.item.id);
+      this.$emit("quantityChanged", this.item.id, this.item.quantity);
     },
     updateColor() {
       this.$emit("colorChanged", this.item.id);
