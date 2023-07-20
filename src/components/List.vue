@@ -2,7 +2,8 @@
   <div class="list">
     <div class="list-header" @click="toggleList">
       <input type="checkbox" v-model="isAllItemsSelected" @change="selectAllItems" @click.stop />
-      {{ listName }}
+      <span class="checkbox-dot" v-if="!isAllItemsSelected"></span> <!-- Add this span for the dot -->
+      <span class="header-text">{{ listName }}</span> <!-- Add a separate span for the list header text -->
     </div>
     <transition name="fade">
       <div v-if="isExpanded" class="list-items">
@@ -41,10 +42,12 @@ export default {
   },
   methods: {
     toggleList() {
-      // Check if the click target is the checkbox. If it is, do not toggle the list.
+      // Check if the click target is the checkbox or the dot. If it is, do not toggle the list.
       const targetElement = event.target;
-      const isCheckboxClicked = targetElement.tagName === "INPUT" && targetElement.type === "checkbox";
-      if (!isCheckboxClicked) {
+      const isCheckboxOrDotClicked =
+        (targetElement.tagName === "INPUT" && targetElement.type === "checkbox") ||
+        targetElement.classList.contains("checkbox-dot");
+      if (!isCheckboxOrDotClicked) {
         this.isExpanded = !this.isExpanded;
       }
     },
@@ -75,6 +78,26 @@ export default {
 
 .list-header {
   cursor: pointer;
+  position: relative; /* To position the dot properly */
+}
+
+.checkbox-dot {
+  position: absolute;
+  pointer-events: none;
+  top: 50%;
+  left: 10px;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 0;
+  background-color: #000; /* Color of the dot */
+}
+
+.header-text {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
 }
 
 .list-items {
