@@ -1,21 +1,19 @@
 <template>
   <div class="list">
-    <div class="list-header" @click="toggleList">
-      <input type="checkbox" v-model="isAllItemsSelected" @change="selectAllItems" @click.stop />
-      <span class="checkbox-dot" v-if="!isAllItemsSelected"></span> <!-- Add this span for the dot -->
-      <span class="header-text">{{ listName }}</span> <!-- Add a separate span for the list header text -->
+    <div class="list-header">
+      <input class="header-checkbox" type="checkbox" v-model="isAllItemsSelected" @change="selectAllItems" @click.stop />
+      <span class="checkbox-dot" v-if="!isAllItemsSelected"></span>
+      <span class="header-text" @click="toggleList">{{ listName }}</span>
     </div>
-    <transition name="fade">
-      <div v-if="isExpanded" class="list-items">
-        <Item
-          v-for="item in items"
-          :key="item.id"
-          :item="item"
-          @itemSelected="onItemSelected"
-          @itemDeleted="onItemDeleted"
-        />
-      </div>
-    </transition>
+    <div v-if="isExpanded" class="list-items">
+      <Item
+        v-for="item in items"
+        :key="item.id"
+        :item="item"
+        @itemSelected="onItemSelected"
+        @itemDeleted="onItemDeleted"
+      />
+    </div>
   </div>
 </template>
 
@@ -42,7 +40,6 @@ export default {
   },
   methods: {
     toggleList() {
-      // Check if the click target is the checkbox or the dot. If it is, do not toggle the list.
       const targetElement = event.target;
       const isCheckboxOrDotClicked =
         (targetElement.tagName === "INPUT" && targetElement.type === "checkbox") ||
@@ -74,43 +71,68 @@ export default {
 <style lang="scss" scoped>
 .list {
   margin-bottom: 20px;
-}
 
-.list-header {
-  cursor: pointer;
-  position: relative; /* To position the dot properly */
-}
+  .list-header {
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0 0 5px;
 
-.checkbox-dot {
-  position: absolute;
-  pointer-events: none;
-  top: 50%;
-  left: 10px;
-  transform: translate(-50%, -50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 0;
-  background-color: #000; /* Color of the dot */
-}
+    .header-text {
+      margin-left: 5px;
+      cursor: pointer;
 
-.header-text {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
-}
+      &:hover {
+        background-color: #f0a34c;
+      }
+    }
 
-.list-items {
-  margin-top: 10px;
-}
+    .header-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      border: 2px solid #000;
+      background-color: #fff;
+      cursor: pointer;
+      position: relative;
+    }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
+    .header-checkbox::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 8px;
+      height: 8px;
+      background-color: #000;
+      opacity: 0;
+    }
 
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
+    .header-checkbox:checked::before {
+      opacity: 1;
+    }
+
+    .checkbox-dot {
+      position: absolute;
+      pointer-events: none;
+      top: 50%;
+      left: 8px;
+      transform: translate(-50%, -50%);
+      width: 3px;
+      height: 3px;
+      border-radius: 0;
+      background-color: #ff0000;
+    }
+  }
+
+  .list-items {
+    margin-top: 10px;
+  }
 }
 </style>

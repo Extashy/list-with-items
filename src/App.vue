@@ -28,26 +28,56 @@ export default {
       lists: [
         {
           id: 1,
-          listName: "List 1",
+          listName: 'Список 1',
           items: [
             { id: 1, quantity: 3, color: "#ff0000", isSelected: false },
             { id: 2, quantity: 2, color: "#00ff00", isSelected: false },
             { id: 3, quantity: 1, color: "#0000ff", isSelected: false },
-            // Добавьте другие элементы по умолчанию для List 1
+            { id: 4, quantity: 1, color: "#ffff00", isSelected: false }
           ],
         },
         {
           id: 2,
-          listName: "List 2",
+          listName: 'Список 2',
           items: [
-            { id: 4, quantity: 5, color: "#ffff00", isSelected: false },
-            { id: 5, quantity: 2, color: "#ff00ff", isSelected: false },
-            // Добавьте другие элементы по умолчанию для List 2
+            { id: 5, quantity: 5, color: "#00ffff", isSelected: false },
+            { id: 6, quantity: 2, color: "#ff00ff", isSelected: false },
+            { id: 7, quantity: 4, color: "#cffc02", isSelected: false },
+            { id: 8, quantity: 7, color: "#000000", isSelected: false },
           ],
         },
-        // Добавьте другие списки по умолчанию
+        {
+          id: 3,
+          listName: 'Список 3',
+          items: [
+            { id: 9, quantity: 1, color: "#808080", isSelected: false },
+            { id: 10, quantity: 8, color: "#ff6666", isSelected: false },
+            { id: 11, quantity: 4, color: "#800000", isSelected: false },
+            { id: 12, quantity: 3, color: "#808000", isSelected: false },
+          ],
+        },
+        {
+          id: 4,
+          listName: 'Список 4',
+          items: [
+            { id: 9, quantity: 9, color: "#000080", isSelected: false },
+            { id: 10, quantity: 6, color: "#800080", isSelected: false },
+            { id: 11, quantity: 1, color: "#008080", isSelected: false },
+            { id: 12, quantity: 8, color: "#00ff00", isSelected: false },
+          ],
+        },
+        {
+          id: 5,
+          listName: 'Список 5',
+          items: [
+            { id: 9, quantity: 3, color: "#00ffff", isSelected: false },
+            { id: 10, quantity: 1, color: "#ff00ff", isSelected: false },
+            { id: 11, quantity: 9, color: "#ffa500", isSelected: false },
+            { id: 12, quantity: 5, color: "#4b0082", isSelected: false },
+          ],
+        }
       ],
-      selectedItems: [], // Array to hold selected items
+      selectedItems: [],
     };
   },
   computed: {
@@ -72,7 +102,7 @@ export default {
       });
     },
     updateSelectedItems(selectedItems) {
-      this.selectedItems = selectedItems; // Update the selectedItems data property
+      this.selectedItems = selectedItems;
     },
   },
 };
@@ -81,16 +111,36 @@ export default {
 <style lang="scss">
 .app {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-}
 
-.left-panel {
-  flex: 1;
-  margin-right: 20px;
-}
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    background:
+      linear-gradient(rgb(253, 254, 206), rgb(128, 128, 128)) padding-box,
+      linear-gradient(
+        45deg,
+        #ff52e5,
+        #f6d242
+      ) border-box;
+  }
 
-.right-panel {
-  flex: 1;
+  .right-panel {
+    flex: 1;
+    width: 40%;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    background:
+      linear-gradient(rgb(253, 254, 206), rgb(128, 128, 128)) padding-box,
+      linear-gradient(
+        45deg,
+        #ff52e5,
+        #f6d242
+      ) border-box;
+  }
 }
 </style>

@@ -2,10 +2,9 @@
   <div class="right-panel">
     <div class="color-squares">
       <div v-for="(listItems, listIndex) in selectedItemsWithSquares" :key="listIndex" class="list-block">
-        <h3>{{ listItems.listName }}</h3>
-        <!-- Use the standard template syntax to display dynamic button text -->
-        <button @click="toggleShuffle(listIndex)">
-          {{ isShuffled[listIndex] ? 'Reset Squares' : 'Shuffle Squares' }}
+        <h3 class="list-title">{{ listItems.listName }}</h3>
+        <button class="list-button" @click="toggleShuffle(listIndex)">
+          {{ isShuffled[listIndex] ? 'Сортировать' : 'Перемешать' }}
         </button>
         <div class="item-block">
           <div class="item">
@@ -33,7 +32,7 @@ export default {
   data() {
     return {
       originalOrders: [],
-      isShuffled: [], // New data property to store the shuffled state for each list
+      isShuffled: [],
     };
   },
   computed: {
@@ -57,11 +56,9 @@ export default {
       }
     },
     toggleShuffle(listIndex) {
-      // Use Vue.set to update the isShuffled property and maintain reactivity
       this.$set(this.isShuffled, listIndex, !this.isShuffled[listIndex]);
 
       if (this.isShuffled[listIndex]) {
-        // Shuffle the squares
         const allSquares = document.querySelectorAll(`.list-block:nth-child(${listIndex + 1}) .color-square`);
         this.originalOrders[listIndex] = Array.from(allSquares).map((square) => square.style.backgroundColor);
         const shuffledSquares = Array.from(allSquares).sort(() => Math.random() - 0.5);
@@ -79,7 +76,6 @@ export default {
     },
   },
   mounted() {
-    // Initialize the isShuffled array with the default value for each list
     this.isShuffled = new Array(this.selectedItems.length).fill(false);
   },
 };
@@ -90,26 +86,49 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-.list-block {
-  margin-bottom: 20px;
-}
+  .color-squares {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
 
-/* Force each list to be displayed below the other */
-.color-squares {
-  display: flex;
-  flex-direction: column;
-}
+    .list-block {
+      margin-bottom: 20px;
+    }
 
-.item-block {
-  display: flex;
-}
+    .list-title {
+      font-size: 22px;
+      margin-bottom: 0;
+      font-family: sans-serif;
+    }
 
-.color-square {
-  width: 30px;
-  height: 30px;
-  margin-right: 5px;
-  display: inline-block; /* Display squares side by side */
+    .list-button {
+      width: 120px;
+      height: 36px;
+      padding: 0 16px;
+      margin-top: 10px;
+      font-size: .875rem;
+      font-weight: bold;
+      color: #96187d;
+      border: 2px solid #da2fb8;
+      border-radius: 4px;
+      background-color: #ffd693;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #3e80cc;
+        color: #1a1a1d;
+        transition: 0.5s;
+      }
+    }
+
+    .color-square {
+      width: 30px;
+      height: 30px;
+      margin: 5px 5px 0 0;
+      display: inline-block;
+      cursor: pointer;
+    }
+  }
 }
 </style>
